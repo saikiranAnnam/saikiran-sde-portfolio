@@ -12,7 +12,6 @@ import {
  SiReact, 
  SiNextdotjs,
  SiKubernetes,
- SiAmazonaws,
  SiRedis,
  SiGooglecloud
 } from 'react-icons/si'
@@ -26,7 +25,7 @@ const getTechIcon = (tech: string) => {
   'React.js': SiReact,
   'Next.js': SiNextdotjs,
   'Kubernetes': SiKubernetes,
-  'AWS': SiAmazonaws,
+  'AWS': FaCloud,
   'GCP': SiGooglecloud,
   'Redis': SiRedis,
   'GoLang': FaCode,
