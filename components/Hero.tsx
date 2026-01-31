@@ -88,7 +88,7 @@ export default function Hero() {
        className="space-y-4"
       >
        <motion.h1
-        className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.1] tracking-tight"
+        className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold leading-[1.1] tracking-tight"
        >
         <motion.span 
          className="dark:text-[#f5f5f7] text-[#1d1d1f] relative inline-block"
@@ -96,7 +96,7 @@ export default function Hero() {
          animate={{ opacity: 1, y: 0 }}
          transition={{ delay: 0.3, duration: 0.6 }}
         >
-         Building{' '}
+         Engineering{' '}
         </motion.span>
         <motion.span 
          className="bg-gradient-to-r from-[#0071e3] via-[#5f8cff] to-[#9b69ff] bg-clip-text text-transparent relative inline-block px-2 py-1"
@@ -105,7 +105,7 @@ export default function Hero() {
          transition={{ delay: 0.5, duration: 0.6 }}
         >
          <span className="absolute inset-0 bg-gradient-to-r from-[#0071e3]/20 via-[#5f8cff]/20 to-[#9b69ff]/20 blur-xl rounded-lg -z-10" />
-         Scalable
+         high-impact backend
         </motion.span>
         <br />
         <motion.span 
@@ -114,7 +114,7 @@ export default function Hero() {
          animate={{ opacity: 1, y: 0 }}
          transition={{ delay: 0.7, duration: 0.6 }}
         >
-         Systems at{' '}
+         systems{' '}
         </motion.span>
         <motion.span 
          className="bg-gradient-to-r from-[#9b69ff] via-[#5f8cff] to-[#0071e3] bg-clip-text text-transparent relative inline-block px-2 py-1"
@@ -123,7 +123,7 @@ export default function Hero() {
          transition={{ delay: 0.9, duration: 0.6 }}
         >
          <span className="absolute inset-0 bg-gradient-to-r from-[#9b69ff]/20 via-[#5f8cff]/20 to-[#0071e3]/20 blur-xl rounded-lg -z-10" />
-         Scale
+         at scale.
         </motion.span>
        </motion.h1>
 
@@ -149,7 +149,7 @@ export default function Hero() {
          animate={{ opacity: 1, y: 0 }}
          transition={{ delay: 1.3, duration: 0.6 }}
         >
-         Software Developer Engineer @ Amazon
+         MSCS & GTA @GMU | Prev @Amazon
         </motion.p>
        </motion.div>
 

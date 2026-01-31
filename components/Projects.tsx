@@ -2,7 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
+import Image from 'next/image'
 import { FaExternalLinkAlt, FaGithub, FaCode, FaCloud, FaDatabase } from 'react-icons/fa'
 import { 
  SiPython, 
@@ -68,6 +69,7 @@ const projects = [
   link: 'https://truecaptcha.org/',
   github: null,
   color: '#9b69ff',
+  image: '/images/truecaptcha.png',
  },
  {
   title: 'Lamprotech.com',
@@ -83,47 +85,13 @@ const projects = [
   link: 'https://lamprotech.com/',
   github: null,
   color: '#5f8cff',
+  image: '/images/lamprotech.png',
  },
 ]
 
 export default function Projects() {
  const ref = useRef(null)
  const isInView = useInView(ref, { once: true, margin: '-100px' })
- const [iframeLoading, setIframeLoading] = useState<{ [key: number]: boolean }>({})
- const [iframeError, setIframeError] = useState<{ [key: number]: boolean }>({})
-
- // Initialize loading state for all projects
- useEffect(() => {
-  const initialLoading: { [key: number]: boolean } = {}
-  const timeouts: NodeJS.Timeout[] = []
-  
-  projects.forEach((project, index) => {
-   if (project.link) {
-    initialLoading[index] = true
-    
-    // Set timeout fallback for iframes that don't load (e.g., blocked by X-Frame-Options)
-    const timeout = setTimeout(() => {
-     setIframeLoading((prev) => {
-      if (prev[index]) {
-       // If still loading after 10 seconds, assume it's blocked
-       setIframeError((prevError) => ({ ...prevError, [index]: true }))
-       return { ...prev, [index]: false }
-      }
-      return prev
-     })
-    }, 10000) // 10 second timeout
-    
-    timeouts.push(timeout)
-   }
-  })
-  
-  setIframeLoading(initialLoading)
-
-  // Cleanup all timeouts
-  return () => {
-   timeouts.forEach((timeout) => clearTimeout(timeout))
-  }
- }, [])
 
  return (
   <section
@@ -160,7 +128,7 @@ export default function Projects() {
       >
        <div className="grid lg:grid-cols-2 gap-0">
         {/* Left Side - Project Information */}
-        <div className={`p-8 lg:p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+        <div className={`p-8 lg:p-12 flex flex-col justify-start ${index % 2 === 1 ? 'lg:order-2' : ''}`} style={{ minHeight: 'calc((50vw) * (1764 / 2928) + 40px)' }}>
          <div className="flex items-start justify-between mb-4">
           <h3 className="text-3xl font-semibold text-[#f5f5f7]">{project.title}</h3>
           <div className="flex gap-3">
@@ -265,116 +233,61 @@ export default function Projects() {
          </div>
         </div>
 
-        {/* Right Side - Live Preview */}
-        <div className={`relative h-[400px] lg:h-[600px] overflow-hidden bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e] ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+        {/* Right Side - Project Preview Image */}
+        <div className={`relative overflow-hidden bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e] ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
          <motion.div
-          className="relative w-full h-full flex items-center justify-center"
+          className="relative w-full group"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: index * 0.2 + 0.3 }}
          >
-          {project.link ? (
+          {project.image ? (
            <>
-            {/* Loading State */}
-            {iframeLoading[index] && !iframeError[index] && (
-             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e] z-10">
-              <div className="text-center">
-               <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="w-12 h-12 border-4 border-[#0071e3] border-t-transparent rounded-full mx-auto mb-4"
+            {/* Desktop/Laptop View Container - Height matches image */}
+            <div className="relative w-full bg-black flex flex-col">
+              {/* Browser Chrome */}
+              <div className="h-10 bg-[#1d1d1f] flex items-center gap-2 px-3 flex-shrink-0 border-b border-[#424245]">
+               <div className="flex gap-1.5">
+                <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
+                <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
+                <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
+               </div>
+               <div className="flex-1 mx-4">
+                <div className="h-6 bg-[#0d1117] rounded text-xs flex items-center px-3 text-[#86868b] font-mono truncate">
+                 {project.link}
+                </div>
+               </div>
+              </div>
+              {/* Project Preview Image - Height matches image dimensions */}
+              <div className="relative bg-white w-full" style={{ aspectRatio: '2928/1764' }}>
+               <Image
+                src={project.image}
+                alt={`${project.title} Preview`}
+                width={2928}
+                height={1764}
+                className="w-full h-full object-contain object-top"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                quality={90}
                />
-               <p className="text-[#86868b] text-sm">
-                Loading {project.title}...
-               </p>
               </div>
              </div>
-            )}
             
-            {/* Error State */}
-            {iframeError[index] && (
-             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#0a0a0f] to-[#1a1a2e] z-10">
-              <div className="text-center p-8">
-               <FaCode size={48} className="text-[#424245] mx-auto mb-4 opacity-50" />
-               <p className="text-[#86868b] text-sm mb-4">
-                Preview unavailable
-               </p>
-               <motion.a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block px-4 py-2 bg-[#0071e3] rounded-lg text-white text-sm font-semibold hover:bg-[#0077ed] transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-               >
-                Open in New Tab →
-               </motion.a>
-              </div>
+            {/* Overlay with link hint - Always visible on hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
+             <div className="absolute bottom-4 left-4 right-4">
+              <motion.a
+               href={project.link}
+               target="_blank"
+               rel="noopener noreferrer"
+               className="block px-4 py-2 bg-gradient-to-r from-[#0071e3] to-[#5f8cff] rounded-lg text-white text-sm font-semibold text-center hover:from-[#0077ed] hover:to-[#6f9cff] transition-all pointer-events-auto shadow-lg"
+               whileHover={{ scale: 1.05, y: -2 }}
+               whileTap={{ scale: 0.95 }}
+              >
+               <FaExternalLinkAlt className="inline-block mr-2" size={12} />
+               Visit Live Site
+              </motion.a>
              </div>
-            )}
-
-            {/* Desktop/Laptop View Container */}
-            {!iframeError[index] && (
-             <div className="w-full h-full flex items-center justify-center p-4 overflow-hidden">
-              <div className="relative w-full h-full bg-black rounded-lg shadow-2xl overflow-hidden border-4 border-[#424245]">
-               {/* Browser Chrome */}
-               <div className="absolute top-0 left-0 right-0 h-10 bg-[#1d1d1f] flex items-center gap-2 px-3 z-20 border-b border-[#424245]">
-                <div className="flex gap-1.5">
-                 <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-                 <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-                 <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
-                </div>
-                <div className="flex-1 mx-4">
-                 <div className="h-6 bg-[#0d1117] rounded text-xs flex items-center px-3 text-[#86868b] font-mono truncate">
-                  {project.link}
-                 </div>
-                </div>
-               </div>
-               {/* Live Preview Iframe - Responsive View */}
-               <div className="w-full h-full pt-10 overflow-auto">
-                <iframe
-                 src={project.link}
-                 className="w-full h-full border-0"
-                 title={`${project.title} Live Preview`}
-                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                 allowFullScreen
-                 loading="lazy"
-                 referrerPolicy="no-referrer-when-downgrade"
-                 onLoad={() => {
-                  setIframeLoading((prev) => ({ ...prev, [index]: false }))
-                 }}
-                 onError={() => {
-                  setIframeLoading((prev) => ({ ...prev, [index]: false }))
-                  setIframeError((prev) => ({ ...prev, [index]: true }))
-                 }}
-                 style={{ 
-                  display: iframeLoading[index] ? 'none' : 'block',
-                  opacity: iframeLoading[index] ? 0 : 1,
-                  transition: 'opacity 0.3s ease-in'
-                 }}
-                />
-               </div>
-              </div>
-             </div>
-            )}
-            
-            {/* Overlay with link hint */}
-            {!iframeError[index] && (
-             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-30">
-              <div className="absolute bottom-4 left-4 right-4">
-               <motion.a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block px-4 py-2 bg-[#0071e3] rounded-lg text-white text-sm font-semibold text-center hover:bg-[#0077ed] transition-all pointer-events-auto"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-               >
-                Open in New Tab →
-               </motion.a>
-              </div>
-             </div>
-            )}
+            </div>
            </>
           ) : (
            <div className="absolute inset-0 flex items-center justify-center">

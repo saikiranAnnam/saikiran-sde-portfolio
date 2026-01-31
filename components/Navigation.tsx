@@ -44,7 +44,7 @@ export default function Navigation() {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
      >
-      SKA
+      SK
      </motion.a>
 
      {/* Desktop Navigation - Colorful with Numbers */}
@@ -77,7 +77,7 @@ export default function Navigation() {
       ))}
      </div>
 
-     {/* Social Links */}
+     {/* Social Links with Glowing Colors */}
      <div className="hidden md:flex items-center space-x-4">
       <motion.a
        href="https://github.com/saikiranAnnam"
@@ -85,7 +85,7 @@ export default function Navigation() {
        rel="noopener noreferrer"
        whileHover={{ scale: 1.2, rotate: 5 }}
        whileTap={{ scale: 0.9 }}
-       className="text-gray-400 hover:text-white transition-colors"
+       className="text-white transition-colors"
       >
        <FaGithub size={20} />
       </motion.a>
@@ -95,15 +95,43 @@ export default function Navigation() {
        rel="noopener noreferrer"
        whileHover={{ scale: 1.2, rotate: -5 }}
        whileTap={{ scale: 0.9 }}
-       className="text-gray-400 hover:text-[#0a66c2] transition-colors"
+       className="relative group"
+       style={{
+        color: '#0a66c2',
+       }}
       >
-       <FaLinkedin size={20} />
+       <FaLinkedin 
+        size={20} 
+        className="transition-all duration-300"
+        style={{
+         filter: 'drop-shadow(0 0 10px rgba(10, 102, 194, 0.8))',
+        }}
+       />
+       <motion.div
+        className="absolute inset-0 rounded-full opacity-100"
+        style={{
+         boxShadow: '0 0 20px rgba(10, 102, 194, 0.6)',
+         filter: 'blur(8px)',
+        }}
+        animate={{
+         boxShadow: [
+          '0 0 20px rgba(10, 102, 194, 0.6)',
+          '0 0 30px rgba(10, 102, 194, 0.9)',
+          '0 0 20px rgba(10, 102, 194, 0.6)',
+         ],
+        }}
+        transition={{
+         duration: 2,
+         repeat: Infinity,
+         ease: 'easeInOut',
+        }}
+       />
       </motion.a>
       <motion.a
        href="mailto:saikiranannam99@gmail.com"
        whileHover={{ scale: 1.2 }}
        whileTap={{ scale: 0.9 }}
-       className="text-gray-400 hover:text-[#ff6b9d] transition-colors"
+       className="text-white transition-colors"
       >
        <FaEnvelope size={20} />
       </motion.a>
@@ -147,7 +175,7 @@ export default function Navigation() {
          href="https://github.com/saikiranAnnam"
          target="_blank"
          rel="noopener noreferrer"
-         className="text-[#86868b] hover:text-white transition-colors"
+         className="text-white transition-colors"
         >
          <FaGithub size={20} />
         </a>
@@ -155,13 +183,20 @@ export default function Navigation() {
          href="https://linkedin.com/in/saikiranannam"
          target="_blank"
          rel="noopener noreferrer"
-         className="text-[#86868b] hover:text-[#0a66c2] transition-colors"
+         className="relative group"
+         style={{ color: '#0a66c2' }}
         >
-         <FaLinkedin size={20} />
+         <FaLinkedin 
+          size={20} 
+          className="transition-all duration-300"
+          style={{
+           filter: 'drop-shadow(0 0 8px rgba(10, 102, 194, 0.6))',
+          }}
+         />
         </a>
         <a
          href="mailto:saikiranannam99@gmail.com"
-         className="text-[#86868b] hover:text-[#ff6b9d] transition-colors"
+         className="text-white transition-colors"
         >
          <FaEnvelope size={20} />
         </a>
